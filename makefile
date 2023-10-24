@@ -1,8 +1,6 @@
-cc = clang
+cc := clang
 
-stdal: ml-req.c https.ml bd.ml
-	make https_lib
-	make bd_exec
+all: https_lib bd_exec
 
 https_lib: ml-req.c https.ml
 	$(cc) -c -I`ocamlc -where` ml-req.c
