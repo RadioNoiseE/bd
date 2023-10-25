@@ -5,4 +5,4 @@
  *)
 
 external ml_request: string -> string -> string -> string = "ocaml_request"
-external ml-fetch: string -> string -> string -> string -> string = "ocaml_fetch"
+external ml_fetch: string -> string -> string -> string -> string = "ocaml_fetch"

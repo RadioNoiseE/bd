@@ -92,7 +92,7 @@ ocaml_fetch(value url, value referer, value cookie, value filename)
   curl_easy_setopt(flag, CURLOPT_COOKIE, String_val(cookie));
   curl_easy_setopt(flag, CURLOPT_WRITEFUNCTION, write_file_callback);
   curl_easy_setopt(flag, CURLOPT_WRITEDATA, fp);
-  res = curl_easy_cleanup(flag);
+  res = curl_easy_perform(flag);
   if (res != CURLE_OK) {
     printf("ml-req.c: libcurl perform failed (%s).\n", curl_easy_strerror(res));
   } else {
@@ -100,5 +100,5 @@ ocaml_fetch(value url, value referer, value cookie, value filename)
   }
   curl_easy_cleanup(flag);
   curl_global_cleanup();
-  return caml_copy_string(Stringval(filename));
+  return caml_copy_string(String_val(filename));
 }
