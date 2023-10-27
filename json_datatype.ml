@@ -2,9 +2,9 @@ type struct =
   | Integer of int
   | Float of float
   | String of string
-  | Array of json list
+  | Array of struct list
   | Bool of bool
-  | Object of (string * json) list
+  | Object of (string * struct) list
   | Null
 
 /* Obsolete |=>
