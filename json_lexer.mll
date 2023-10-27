@@ -1,3 +1,9 @@
+(*
+ * JSON lexer for the program bd.
+ * Copyright 2023, Jing Huang.
+ * Licensed MIT.
+ *)
+
 {
 open Lexing
 open Json_parser
