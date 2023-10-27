@@ -18,7 +18,7 @@ let frac = '.' dgt*
 let exp = ['e' 'E'] ['-' '+']? dgt+
 let flt = dgt* frac? exp?
 let white = [' ' '\t']+
-let newline = '\r' |'\n' | '\r\n'
+let newline = '\r' |'\n' | "\r\n"
 
 rule token =
   parse
