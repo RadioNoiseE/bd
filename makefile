@@ -9,6 +9,11 @@ https_lib: ml-req.c https.ml
 json_lib: json_lexer.mll json_parser.mly
 	ocamllex json_lexer.mll
 	ocamlyacc json_parser.mly
+	ocamlopt -c json_datatype.ml
+	ocamlopt -c json_parser.mli
+	ocamlopt -c json_lexer.ml
+	ocamlopt -c json_parser.ml
+	ocamlopt -c json.ml
 
 bd_exec: bd.ml https.cmx https.cmi ml-req.o
 	ocamlopt -o bd https.cmx bd.ml ml-req.o -ccopt -Lcurl -cclib -lcurl

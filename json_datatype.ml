@@ -1,13 +1,19 @@
-type struct =
+(*
+ * JSON datatype declaration for the program bd.
+ * Copyright 2023, Jing Huang.
+ * Licensed MIT.
+ *)
+
+type stt =
   | Integer of int
   | Float of float
   | String of string
-  | Array of struct list
+  | Array of stt list
   | Bool of bool
-  | Object of (string * struct) list
+  | Object of (string * stt) list
   | Null
 
-/* Obsolete |=>
+(* Obsolete |=>
 type value =
   [ `Assoc of (string * value) list
   | `Bool of bool
@@ -16,4 +22,4 @@ type value =
   | `List of value list
   | `Null
   | `String of string ]
-<=| */
+<=| *)

@@ -18,9 +18,9 @@
 %token COMMA
 %token EOF
 
-%type <Json_datatype.struct> main
+%type <Json_datatype.stt> main
 %start main
-%{ open Json_datatype.struct %}
+%{ open Json_datatype %}
 
 %%
 
@@ -35,8 +35,8 @@ expr:
   | TRUE { Bool(true) }
   | FALSE { Bool(false) }
   | NULL { Null }
-  | LEFT_BRACK array_values RIGHT_BRACK { $2 }
-  | LEFT_BRACE object_fields RIGHT_BRACE { $2 }
+  | LEFT_BRACK array_values RIGHT_BRACK { Array($2) }
+  | LEFT_BRACE object_fields RIGHT_BRACE { Object($2) }
   ;
 
 array_values:
@@ -45,7 +45,7 @@ array_values:
 
 rev_array_values:
   | /* Null */ { [] }
-  | rev_array_values COMMA expr { Array($3::$1) }
+  | rev_array_values COMMA expr { $3::$1 }
   ;
 
 object_fields:
@@ -54,7 +54,7 @@ object_fields:
 
 rev_object_fields:
   | /* Null */ { [] }
-  | rev_object_fields COMMA STRING COLON expr { Object(($3,$5)::$1) }
+  | rev_object_fields COMMA STRING COLON expr { ($3,$5)::$1 }
   ;
 
 /* Obsolete |=>

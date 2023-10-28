@@ -13,7 +13,7 @@ exception SyntaxError of string
 let next_line lexbuf =
   let pos = lexbuf.lex_curr_p in
   lexbuf.lex_curr_p <- {
-    pos with pos_bol = lexbuf.lex_curr_p;
+    pos with pos_bol = lexbuf.lex_curr_pos;
              pos_lnum = pos.pos_lnum + 1
   }
 }
@@ -32,8 +32,8 @@ rule token =
   | "true" { TRUE }
   | "false" { FALSE }
   | "null" { NULL }
-  | itg { INT (int_of_string (Lexing.lexme lexbuf)) }
-  | flt { FLOAT (float_of_string (Lexing.lexme lexbuf)) }
+  | itg { INT (int_of_string (Lexing.lexeme lexbuf)) }
+  | flt { FLOAT (float_of_string (Lexing.lexeme lexbuf)) }
   | '"' { read_string (Buffer.create 128) lexbuf }
   | '[' { LEFT_BRACK }
   | ']' { RIGHT_BRACK }
@@ -41,8 +41,9 @@ rule token =
   | '}' { RIGHT_BRACE }
   | ':' { COLON }
   | ',' { COMMA }
+  | newline { next_line lexbuf; token lexbuf }
   | eof { EOF }
-  | _ { raise (SyntaxError (Printf.sprintf "offset %d: unexpected character.\n" (Lexing.lexme_start lexbuf))) }
+  | _ { raise (SyntaxError (Printf.sprintf "offset %d: unexpected character.\n" (Lexing.lexeme_start lexbuf))) }
 and read_string buf =
   parse
   | '"' { STRING (Buffer.contents buf) }
@@ -53,6 +54,6 @@ and read_string buf =
   | '\\' 't' { Buffer.add_char buf '\t'; read_string buf lexbuf }
   | '\\' '/' { Buffer.add_char buf '/'; read_string buf lexbuf }
   | '\\' '\\' { Buffer.add_char buf '\\'; read_string buf lexbuf }
-  | [^ '"' '\\']+ { Buffer.add_char buf (Lexing.lexme lexbuf); read_string buf lexbuf }
-  | _ { Buffer.add_char buf (Lexing.lexme lexbuf); read_string buf lexbuf }
-  | eof { raise (SyntaxError (Printf.sprintf "offset %d: string terminated by EOF.\n" (Lexing.lexme_start lexbuf))) }
+  | [^ '"' '\\']+ { Buffer.add_string buf (Lexing.lexeme lexbuf); read_string buf lexbuf }
+  | _ { Buffer.add_string buf (Lexing.lexeme lexbuf); read_string buf lexbuf }
+  | eof { raise (SyntaxError (Printf.sprintf "offset %d: string terminated by EOF.\n" (Lexing.lexeme_start lexbuf))) }
