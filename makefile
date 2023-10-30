@@ -20,7 +20,7 @@ json_lib: json_lexer.mll json_parser.mly
 	ocamlopt -c json.ml
 
 bd_exec: bd.ml https.cmx https.cmi ml-req.o
-	ocamlopt -o bd https.cmx bd.ml ml-req.o -ccopt -Lcurl -cclib -lcurl
+	ocamlopt -o bd https.cmx json_lexer.cmx json_parser.cmx  json.cmx bd.ml ml-req.o -ccopt -Lcurl -cclib -lcurl
 
 clean_aux:
 	rm -f *.[oa] *.so *.cm[ixoa] *.cmxa json_lexer.ml json_parser.ml json_parser.mli

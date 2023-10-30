@@ -55,6 +55,7 @@ object_fields:
 rev_object_fields:
   | /* Null */ { [] }
   | rev_object_fields COMMA STRING COLON expr { ($3,$5)::$1 }
+  | STRING COLON expr { [($1, $3)] }
   ;
 
 /* Obsolete |=>

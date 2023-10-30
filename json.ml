@@ -33,17 +33,17 @@ let as_string (str: t) =
   | _ -> raise NotStringableValue
 ;;
 
-let rec get_mem (arr: t) (nmr: int) =
+let rec get_mem (nmr: int) (arr: t) =
   match arr with
   | Array ([]) -> raise NoElement
   | Array (elements) -> List.nth elements nmr
   | _ -> raise NotArray
 ;;
 
-let rec get_child (obj: t) (vlu: string) =
+let rec get_child (vlu: string) (obj: t) =
   match obj with
   | Object ((vlu, expr) :: tl) -> expr
-  | Object (hd :: tl) -> get_child (Object tl) vlu
+  | Object (hd :: tl) -> get_child vlu (Object tl)
   | Object ([]) -> raise NoObject
   | _ -> raise NotObject
 ;;
