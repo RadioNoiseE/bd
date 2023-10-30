@@ -16,6 +16,7 @@ let parse (json: string): t =
 exception NotNumericValue
 exception NotStringableValue
 exception NotObject
+exception NoObject
 
 let as_number (nmr: t) =
   match nmr with
@@ -30,8 +31,10 @@ let as_string (str: t) =
   | _ -> raise NotStringableValue
 ;;
 
-let get_child (obj: t) (vlu: string) =
+let rec get_child (obj: t) (vlu: string) =
   match obj with
-  | Object (vlu, expr) -> expr
+  | Object ((vlu, expr) :: tl) -> expr
+  | Object (hd :: tl) -> get_child (Object tl) vlu
+  | Object ([]) -> raise NoObject
   | _ -> raise NotObject
 ;;
