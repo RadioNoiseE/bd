@@ -15,6 +15,8 @@ let parse (json: string): t =
 
 exception NotNumericValue
 exception NotStringableValue
+exception NotArray
+exception NoElement
 exception NotObject
 exception NoObject
 
@@ -29,6 +31,13 @@ let as_string (str: t) =
   match str with
   | String str -> str
   | _ -> raise NotStringableValue
+;;
+
+let rec get_mem (arr: t) (nmr: int) =
+  match arr with
+  | Array ([]) -> raise NoElement
+  | Array (elements) -> List.nth elements nmr
+  | _ -> raise NotArray
 ;;
 
 let rec get_child (obj: t) (vlu: string) =

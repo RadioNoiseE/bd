@@ -21,4 +21,4 @@ let transfer record cookie =
       ml_request url referer cookie
     | Resource { url; referer; filename } ->
       ml_fetch url referer cookie filename
-  in (if responce <> "" then raise Unexpected_return_value else responce)
+  in (if responce <> "" then responce else raise Unexpected_return_value);;
