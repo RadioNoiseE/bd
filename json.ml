@@ -4,13 +4,13 @@
  * Licensed MIT.
  *)
 
+type t = Json_datatype.stt
+
 open Json_datatype
 
-type t = Json_datatype.stt;;
-
 let parse (json: string): t =
-  let linebuf = Lexing.from_string json in
-  Json_parser.main Json_lexer.token linebuf
+  let lexbuf = Lexing.from_string json in
+  Json_parser.main Json_lexer.token lexbuf
 ;;
 
 exception NotNumericValue
