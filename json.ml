@@ -35,15 +35,14 @@ let as_string (str: t) =
 
 let rec get_mem (nmr: int) (arr: t) =
   match arr with
-  | Array ([]) -> raise NoElement
   | Array (elements) -> List.nth elements nmr
+  | Array ([]) -> raise NoElement
   | _ -> raise NotArray
 ;;
 
 let rec get_child (vlu: string) (obj: t) =
   match obj with
-  | Object ((vlu, expr) :: tl) -> expr
-  | Object (hd :: tl) -> get_child vlu (Object tl)
+  | Object ((key, expr) :: tl) -> if key = vlu then expr else get_child vlu (Object tl)
   | Object ([]) -> raise NoObject
   | _ -> raise NotObject
 ;;

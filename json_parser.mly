@@ -46,6 +46,7 @@ array_values:
 rev_array_values:
   | /* Null */ { [] }
   | rev_array_values COMMA expr { $3::$1 }
+  | expr { [$1] }
   ;
 
 object_fields:
