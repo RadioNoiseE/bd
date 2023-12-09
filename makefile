@@ -1,8 +1,8 @@
 # Makefile for the program bd.
 # Copyright 2023, Jing Huang.
-# Licensed MIT
+# Licensed MIT.
 
-cc := clang
+cc := gcc
 
 all: https_lib json_lib url_lib bd_exec
 
