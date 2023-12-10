@@ -6,8 +6,8 @@ Bangumi scraper for bilibili written in OCaml | 扫荡小破站的番剧 [WIP]
 
 ## Status
 
-Under development.
-Currently tested on (Gentoo) Linux and MacOS, should run on Windows.
+Under development.<br/>
+Currently tested on Gentoo Linux and MacOS, should run on Windows.
 
 ## Build
 
@@ -17,7 +17,7 @@ Currently tested on (Gentoo) Linux and MacOS, should run on Windows.
    - On Gentoo Linux run `emerge --ask dev-lang/ocaml`;
    - On MacOS run `sudo pkgin install ocaml`.
 2. C complier (gcc/clang).
-3. C Library `libcurl`:
+3. C library `libcurl`:
    - On Gentoo Linux run `emerge --ask net-misc/curl`;
    - On MacOS you are recommended to run `xcode-select --install` to install Xcode command line tools which included `libcurl`.
 
