@@ -16,28 +16,40 @@ type target = {
 
 let tarinfo = { cnt = "nil"; favour = "nil"; id = "nil"; referer = "nil"; cookie = "nil" };;
 
-open Https
 open Url_datatype
 
 let extract url cookie =
-  let link = Url.parse url in
+  let link = Url.cat url in
   if (String.lowercase_ascii link.site) <> "bilibili" then raise UnsupportedSite
   else tarinfo = { cnt = link.cnt; favour = link.favour; id = link.id; referer = url; cookie }
   match classify tarinfo with
   | "festival" -> extract_festival tarinfo
-  | "video" -> extract_festival tarinfo
+  | "video" -> extract_video tarinfo
   | "episode" -> extract_episode tarinfo
 ;;
 
 let classify_redirect url =
-  try Https.transfer (Data { url = "https://api.bilibili.com/x/web-interface/view?bvid=" ^ url.bvid; referer = url.referer }) url.cookie
-    |> Https.parse |> Https.get_child "data" |> Https.get_child "redirect_url" |> Https.as_string
+  try Https.transfer (Data { url = "https://api.bilibili.com/x/web-interface/view?" ^ url.favour "=" ^ url.id; referer = url.referer }) url.cookie
+    |> Json.parse |> Json.get_child "data" |> Json.get_child "redirect_url" |> Json.as_string
   with NoObject -> "video"
 ;;
 
 let classify url =
   match url.cnt with
   | "festival" -> "festival"
-  | "opisode" -> "episode"
+  | "episode" -> "episode"
   | "video" -> if (classify_redirect url) <> "video" then "episode" else "video"
+  | "watchlater" -> classify_redirect url
+;;
+
+let extract_festival url =
+
+;;
+
+let extract_video url =
+
+;;
+
+let extract_episode url =
+
 ;;
